@@ -5,18 +5,27 @@
 Lightweight library that allows you to manipulate your LocalStorage data using a fluent syntax.
 
 Examples:
-
-"Get age from a person who is called John"
-where('name').eq('John').get('age');
-
-"Set age to 18 for people with name equals to Jessy"
-where('name').eq('Jessy').updateProp({ "age" : 18 });
+<br>
+<i>"Get age from a person who is called John" </i>
+<br>
+<code>where('name').eq('John').get('age');</code>
+<br>
+<br>
+<i>"Set age to 18 for a person with name equals to Jessy"</i>
+<br>
+<code>where('name').eq('Jessy').updateProp({ "age" : 18 });</code>
 
 By default each command just manipulate the first found registry. If you want to manipulate all found registries then you can use the 'All version'. Example:
-
-'Single version':
-where('name').eq('John').get('age');
-'All version':
-where('name').eq('John').getAll('age');
-
-All commands has its 'All version'.
+<br>
+<br>
+<i>'Single version':</i>
+<br>
+<code>where('name').eq('John').get('age');</code>
+<br>
+<br>
+<i>'All version':</i>
+<br>
+<code>where('name').eq('John').get<b>All</b>('age');</code>
+<br>
+<br>
+<b>Note:</b> All commands has its <i>'All version'</i>. To use it just add <b>All</b> at the end of the command name, then you will be able to reach all registries.
