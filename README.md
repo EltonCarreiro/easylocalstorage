@@ -13,7 +13,7 @@ Examples:
 <br>
 <i>"Set age to 18 for a person with name equals to Jessy"</i>
 <br>
-<code>where('name').eq('Jessy').updateProp({ "age" : 18 });</code>
+<code>where('name').eq('Jessy').update({ "age" : 18 });</code>
 
 By default each command just manipulate the first found registry. If you want to manipulate all found registries then you can use the 'All version'. Example:
 <br>
