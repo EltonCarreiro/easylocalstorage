@@ -1,8 +1,11 @@
-var easyStorage = function(storageName) {
+var easyStorage = function(storageName, overrideExisting) {    
+    var localStorage = {};
+    
+    if (window !== undefined)
+        localStorage = window.localStorage;
 
-    var localStorage = window.localStorage;
-
-    serialize([]);
+    if (localStorage[storageName] === undefined || overrideExisting)
+        serialize([]);
 
     function serialize(data) {
         localStorage[storageName] = JSON.stringify(data);
@@ -164,6 +167,8 @@ var easyStorage = function(storageName) {
     };
 };
 
+
+module.exports.easyStorage = easyStorage;
 
 /*
     v.0.0.1 - Supported queries:
