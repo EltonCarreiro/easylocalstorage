@@ -1,6 +1,6 @@
 var easyStorage = function(storageName, overrideExisting) {    
     var localStorage = {};
-    
+
     if (window !== undefined)
         localStorage = window.localStorage;
 
@@ -23,7 +23,6 @@ var easyStorage = function(storageName, overrideExisting) {
         return (props.length == 1 ? root[props[0]] : getPropByPath(root[props[0]], props.slice(1).join('.')));
     }
 
-    // Bind logic functions with the key
     function bindFunc(ctx, func, arg) {
         try {
             ctx = ctx || this;
@@ -33,7 +32,6 @@ var easyStorage = function(storageName, overrideExisting) {
         }
     }
 
-    // Bind command functions with logicFunc
     function bindCommands(func, key) {
         return {
             get: get.bind(this, func, key),
@@ -42,12 +40,12 @@ var easyStorage = function(storageName, overrideExisting) {
             updateAll: updateAll.bind(this, func, key, false),
             updateOrInsert: update.bind(this, func, key, true),
             updateOrInsertAll: updateAll.bind(this, func, key, true),
+            replace: replace.bind(this, func, key),
+            replaceAll: replaceAll.bind(this, func, key),
             del: del.bind(this, func, key),
             delAll: delAll.bind(this, func, key)
-        }
+        };
     }
-
-    // Data Manipulation functions
 
     function insert(data) {
         var arr = deserialize();
@@ -109,12 +107,83 @@ var easyStorage = function(storageName, overrideExisting) {
         return true;
     }
 
+    function replace(compareFunc, objKey, prop) {
+        var found = false;
+        var arr = deserialize().map(function(root) {
+            if(!found && compareFunc(getPropByPath(root, objKey))) {
+                root = prop;
+                found = true;
+            }
+
+            return root;
+        });
+
+        serialize(arr);
+        return found;
+    }
+
+    function replaceAll(compareFunc, objKey, prop) {
+        var found = false;
+        var arr = deserialize().map(function(root) {
+            if(compareFunc(getPropByPath(root, objKey)))
+             {
+                found = true;
+                root = prop;
+             }
+            
+            return root;
+        });
+
+        serialize(arr);
+        return found;
+    }
+
     function del(compareFunc,objKey, prop) {
-        return compareFunc() + ' delete ' + prop;
+        var arr = deserialize();
+        var found = false;
+        if (!prop)
+            arr = arr.filter(function(root) {
+                    if (!found && compareFunc(getPropByPath(root, objKey))) {
+                        found = true;
+                        return false;
+                    }              
+                        return true;
+            });
+        else
+            arr = arr.map(function(root) {
+                if (!found && compareFunc(getPropByPath(root, objKey))) {
+                    found = true;
+                    delete root[prop];
+                }
+                
+                return root;
+            });
+        serialize(arr);
+        return found;
     }
 
     function delAll(compareFunc,objKey, prop) {
-        return compareFunc() + ' delete all ' + prop;
+        var arr = deserialize();
+        var found = false;
+        if (!prop)
+            arr = arr.filter(function(root) {
+                    if (compareFunc(getPropByPath(root, objKey))) {
+                        found = true;
+                        return false;
+                    }              
+                        return true;
+            });
+        else
+            arr = arr.map(function(root) {
+                if (compareFunc(getPropByPath(root, objKey))) {
+                    found = true;
+                    delete root[prop];
+                }
+
+                return root;
+            });
+        serialize(arr);
+        return found;
     }
 
 
@@ -166,41 +235,3 @@ var easyStorage = function(storageName, overrideExisting) {
         where: where
     };
 };
-
-
-module.exports.easyStorage = easyStorage;
-
-/*
-    v.0.0.1 - Supported queries:
-
-    gets: OK!
-        where('name').eq('john').get('age');    OK
-        where('name').eq('john').getAll('age'); OK
-    updates:
-        where('name').eq('john').update(item);  OK
-        where('name').eq('john').updateAll(item); OK
-        where('name').eq('john').updateOrInsert(item);  OK
-        where('name').eq('john').updateOrInsertAll(item);  OK
-        where('name').eq('john').replace(item);
-        where('name).eq('john').replaceAll(item);
-
-    deletes:
-        where('name').eq('john').del();
-        where('name').eq('john').delAll();
-
- */
-
-/*
-
-var db = new easyStorage('db');
-db.insert({nome:'elton',idade:18});
-db.insert({nome:'elton',idade:18});
-db.insert({nome:'elton',idade:18});
-db.insert({nome:'elton',idade:18});
-db.insert({nome:'elton',idade:18});
-db.insert({nome:'elton',idade:18});
-db.insert({nome:'elton',idade:18});
-db.insert({nome:'elton',idade:18});
-db.where('nome').eq('elton').getAll();
-
- */
