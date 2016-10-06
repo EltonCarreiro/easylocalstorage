@@ -14,11 +14,9 @@ var easyStorage = function(storageName, overrideExisting) {
     function deserialize() {
         return JSON.parse(localStorage[storageName]);
     }
-
-    // Helper functions (internal functions)
  
-    // Returns the property with the given string path
     function getPropByPath(root, path) {
+        if (!path || path === '') return root;
         var props = path.split('.');
         return (props.length == 1 ? root[props[0]] : getPropByPath(root[props[0]], props.slice(1).join('.')));
     }
@@ -125,8 +123,7 @@ var easyStorage = function(storageName, overrideExisting) {
     function replaceAll(compareFunc, objKey, prop) {
         var found = false;
         var arr = deserialize().map(function(root) {
-            if(compareFunc(getPropByPath(root, objKey)))
-             {
+            if(compareFunc(getPropByPath(root, objKey))) {
                 found = true;
                 root = prop;
              }
@@ -230,8 +227,15 @@ var easyStorage = function(storageName, overrideExisting) {
         };
     }
 
+    var fakeCriteria = function() { return true; };
+
     return {
         insert: insert,
+        getAll: getAll.bind(this, fakeCriteria, undefined),
+        updateAll: updateAll.bind(this, fakeCriteria, undefined, false),
+        updateOrInsertAll: updateAll.bind(this, fakeCriteria, undefined, true),
+        replaceAll: replaceAll.bind(this, fakeCriteria, undefined),
+        delAll: delAll.bind(this, fakeCriteria, undefined),
         where: where
     };
 };
