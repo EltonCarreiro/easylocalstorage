@@ -74,7 +74,6 @@ We are at just the beggining of the library and we have lots of work to do! Take
   <li>ilike (case insensitive like)</li>
   <li>lessOrEqualThan</li>
   <li>greaterOrEqualThan</li>
-  <li>lessOrEqualThan</li>
   <li>matches (allow regexp)</li>
   </ul>
 </li>
