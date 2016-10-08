@@ -83,4 +83,5 @@ We are at just the beggining of the library and we have lots of work to do! Take
   <li>Browser over specific node like 'person.[hobbies][0].name (hobbies is an array)'</li>
   </ul>
 </li>
+<li>Local Storage fallback (to cookies!)</li>
 </ul>
