@@ -77,4 +77,10 @@ We are at just the beggining of the library and we have lots of work to do! Take
   <li>matches (allow regexp)</li>
   </ul>
 </li>
+<li>Allow arrays at the pathfinder
+  <ul>
+  <li>Browser over the whole array like 'person.[hobbies].name (hobbies is an array)'</li>
+  <li>Browser over specific node like 'person.[hobbies][0].name (hobbies is an array)'</li>
+  </ul>
+</li>
 </ul>
