@@ -15,10 +15,18 @@ var easyStorage = function(storageName, overrideExisting) {
         return JSON.parse(localStorage[storageName]);
     }
  
-    function getPropByPath(root, path) {
+    function getPropByPath(root, path, throwError) {
         if (!path || path === '') return root;
         var props = path.split('.');
-        return (props.length == 1 ? root[props[0]] : getPropByPath(root[props[0]], props.slice(1).join('.')));
+        
+        if (!root.hasOwnProperty(props[0])) {
+            if (throwError)
+                throw new Error('Property does not exists in the entity.');
+            else
+                return undefined;
+        }
+
+        return (props.length === 1 ? root[props[0]] : getPropByPath(root[props[0]], props.slice(1).join('.')));
     }
 
     function bindFunc(ctx, func, arg) {
@@ -58,10 +66,10 @@ var easyStorage = function(storageName, overrideExisting) {
 
     function getAll(compareFunc, objKey, prop) {
         var results = deserialize().slice().filter(function(root) {
-            return compareFunc(getPropByPath(root, objKey));
+            return compareFunc(getPropByPath(root, objKey, true));
         });
 
-        return ( !prop ? results : results.map(function (root) { return root[prop]; }) ); 
+        return ( !prop ? results : results.map(function (root) { return getPropByPath(root, prop); }) ); 
     }
 
     function applyUpdate(item, changes, canInsert) {
@@ -81,7 +89,7 @@ var easyStorage = function(storageName, overrideExisting) {
     function update(compareFunc, objKey, canInsert, prop) {
         var found = false;
         var arr = deserialize().slice().map(function(root) {
-            if(!found && compareFunc(getPropByPath(root, objKey))) {
+            if(!found && compareFunc(getPropByPath(root, objKey, true))) {
                 root = applyUpdate(root, prop, canInsert);
                 found = true;
             }
@@ -95,7 +103,7 @@ var easyStorage = function(storageName, overrideExisting) {
 
     function updateAll(compareFunc, objKey, canInsert, prop) {
         var arr = deserialize().slice().map(function(root) {
-            if(compareFunc(getPropByPath(root, objKey)))
+            if(compareFunc(getPropByPath(root, objKey, true)))
                 root = applyUpdate(root, prop, canInsert);
             
             return root;
@@ -108,7 +116,7 @@ var easyStorage = function(storageName, overrideExisting) {
     function replace(compareFunc, objKey, prop) {
         var found = false;
         var arr = deserialize().map(function(root) {
-            if(!found && compareFunc(getPropByPath(root, objKey))) {
+            if(!found && compareFunc(getPropByPath(root, objKey, true))) {
                 root = prop;
                 found = true;
             }
@@ -123,7 +131,7 @@ var easyStorage = function(storageName, overrideExisting) {
     function replaceAll(compareFunc, objKey, prop) {
         var found = false;
         var arr = deserialize().map(function(root) {
-            if(compareFunc(getPropByPath(root, objKey))) {
+            if(compareFunc(getPropByPath(root, objKey, true))) {
                 found = true;
                 root = prop;
              }
@@ -140,7 +148,7 @@ var easyStorage = function(storageName, overrideExisting) {
         var found = false;
         if (!prop)
             arr = arr.filter(function(root) {
-                    if (!found && compareFunc(getPropByPath(root, objKey))) {
+                    if (!found && compareFunc(getPropByPath(root, objKey, true))) {
                         found = true;
                         return false;
                     }              
@@ -148,7 +156,7 @@ var easyStorage = function(storageName, overrideExisting) {
             });
         else
             arr = arr.map(function(root) {
-                if (!found && compareFunc(getPropByPath(root, objKey))) {
+                if (!found && compareFunc(getPropByPath(root, objKey, true))) {
                     found = true;
                     delete root[prop];
                 }
@@ -164,7 +172,7 @@ var easyStorage = function(storageName, overrideExisting) {
         var found = false;
         if (!prop)
             arr = arr.filter(function(root) {
-                    if (compareFunc(getPropByPath(root, objKey))) {
+                    if (compareFunc(getPropByPath(root, objKey, true))) {
                         found = true;
                         return false;
                     }              
@@ -172,7 +180,7 @@ var easyStorage = function(storageName, overrideExisting) {
             });
         else
             arr = arr.map(function(root) {
-                if (compareFunc(getPropByPath(root, objKey))) {
+                if (compareFunc(getPropByPath(root, objKey, true))) {
                     found = true;
                     delete root[prop];
                 }
@@ -204,7 +212,7 @@ var easyStorage = function(storageName, overrideExisting) {
 
     function lessThan(key, expectedValue) {
         var lessThanFunc = function(expectedValue, value) { 
-            return expectedValue < value;
+            return expectedValue > value;
         };
         
         return bindCommands(lessThanFunc.bind(this, expectedValue), key);
@@ -212,7 +220,7 @@ var easyStorage = function(storageName, overrideExisting) {
 
     function greaterThan(key, expectedValue) {
         var greaterThanFunc = function(expectedValue, value) { 
-            return expectedValue > value;
+            return expectedValue < value;
         };
         
         return bindCommands(greaterThanFunc.bind(this, expectedValue), key);
