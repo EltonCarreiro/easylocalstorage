@@ -71,7 +71,6 @@ We are at just the beggining of the library and we have lots of work to do! Take
 <li>
   Create new criterias:
   <ul>
-  <li>ilike (case insensitive like)</li>
   <li>lessOrEqualThan</li>
   <li>greaterOrEqualThan</li>
   <li>matches (allow regexp)</li>
@@ -84,4 +83,5 @@ We are at just the beggining of the library and we have lots of work to do! Take
   </ul>
 </li>
 <li>Local Storage fallback (to cookies!)</li>
+<li>Allow adding custom criteria functions</li>
 </ul>
