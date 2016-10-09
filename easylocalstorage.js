@@ -98,19 +98,22 @@ var easyStorage = function(storageName, overrideExisting) {
         });
 
         serialize(arr);
-        return true;
+        return found;
     }
 
     function updateAll(compareFunc, objKey, canInsert, prop) {
+        var found = false;
         var arr = deserialize().slice().map(function(root) {
-            if(compareFunc(getPropByPath(root, objKey, true)))
+            if(compareFunc(getPropByPath(root, objKey, true))) {
                 root = applyUpdate(root, prop, canInsert);
+                found = true;
+            }
             
             return root;
         });
 
         serialize(arr);
-        return true;
+        return found;
     }
 
     function replace(compareFunc, objKey, prop) {
