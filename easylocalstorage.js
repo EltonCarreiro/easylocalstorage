@@ -213,6 +213,14 @@ var easyStorage = function(storageName, overrideExisting) {
         return bindCommands(likeFunc.bind(this, expectedValue), key);
     }
 
+    function ilike(key, expectedValue) {
+        var ilikeFunc = function(expectedValue, value) { 
+            return expectedValue.toString().toLowerCase().indexOf(value.toString().toLowerCase()) > -1;
+        };
+        
+        return bindCommands(ilikeFunc.bind(this, expectedValue), key);
+    }
+
     function lessThan(key, expectedValue) {
         var lessThanFunc = function(expectedValue, value) { 
             return expectedValue > value;
@@ -233,6 +241,7 @@ var easyStorage = function(storageName, overrideExisting) {
         return {
             eq: bindFunc(this, eq, key),
             like: bindFunc(this, like, key),
+            ilike: bindFunc(this, ilike, key),
             lessThan: bindFunc(this, lessThan, key),
             greaterThan: bindFunc(this, greaterThan, key)
         };
