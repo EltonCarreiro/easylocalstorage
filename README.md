@@ -68,14 +68,6 @@ We are at just the beggining of the library and we have lots of work to do! Take
 
 <ul>
 <li>Finish up our test suite (20% done)</li>
-<li>
-  Create new criterias:
-  <ul>
-  <li>lessOrEqualThan</li>
-  <li>greaterOrEqualThan</li>
-  <li>matches (allow regexp)</li>
-  </ul>
-</li>
 <li>Allow arrays at the pathfinder
   <ul>
   <li>Browser over the whole array like 'person.[hobbies].name (hobbies is an array)'</li>
