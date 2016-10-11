@@ -11,7 +11,6 @@ describe("", function() {
 
     describe("Get", function() {
 
-
         describe("single", function() {
             it("should return root property value", function() {
                 var expectedValue = randomData[0];
@@ -130,8 +129,135 @@ describe("", function() {
                 expect(db.where('index').eq(0).get('blabla')).toEqual(undefined);
             });
         });
-
-
     });
 
+    describe("Update or Insert", function() {
+        describe("Single", function() {
+            it("should update given property", function() {
+
+            });
+
+            it("should return true when update suceed", function() {
+
+            });
+
+            it("should return false when criteria does not match", function() {
+
+            });
+
+            it("should throw error when criteria property does not exist", function() {
+
+            });
+
+            it("should create property when target property does not exist", function() {
+
+            });
+        });
+
+        describe("All", function(){
+            it("should update given property", function() {
+
+            });
+
+            it("should return true when update suceed", function() {
+
+            });
+
+            it("should return false when criteria does not match", function() {
+
+            });
+
+            it("should throw error when criteria property does not exist", function() {
+
+            });
+
+            it("should create property when target property does not exist", function() {
+
+            });
+        });
+    });
+
+    describe("Replace", function() {
+        describe("Single", function() {
+            it("should replace target item", function() {
+
+            });
+
+            it("should return true when replace suceed", function() {
+
+            });
+
+            it("should return false when criteria does not match", function() {
+
+            });
+
+            it("should throw error when criteria property doest not exist", function() {
+
+            });
+        });
+
+        describe("All", function() {
+            it("should replace target item", function() {
+
+            });
+
+            it("should return true when replace suceed", function() {
+
+            });
+
+            it("should return false when criteria does not match", function() {
+
+            });
+
+            it("should throw error when criteria property doest not exist", function() {
+
+            });
+        });
+    });
+
+    describe("Delete", function() {
+        describe("Single", function() {
+            it("should delete target property", function() {
+
+            });
+
+            it("should delete target item", function() {
+
+            });
+
+            it("should return true when delete suceed", function() {
+
+            });
+
+            it("should return false when criteria does not match", function() {
+
+            });
+
+            it("should throw error when criteria property doest not exist", function() {
+
+            });
+        });
+
+       describe("All", function() {
+            it("should delete target property", function() {
+
+            });
+
+            it("should delete target item", function() {
+
+            });
+
+            it("should return true when delete suceed", function() {
+
+            });
+
+            it("should return false when criteria does not match", function() {
+
+            });
+
+            it("should throw error when criteria property doest not exist", function() {
+
+            });
+        });
+    });
 });
