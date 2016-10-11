@@ -229,6 +229,14 @@ var easyStorage = function(storageName, overrideExisting) {
         return bindCommands(lessThanFunc.bind(this, expectedValue), key);
     }
 
+    function lessOrEqualThan(key, expectedValue) {
+         var lessOrEqualThanFunc = function(expectedValue, value) { 
+            return expectedValue >= value;
+        };
+        
+        return bindCommands(lessOrEqualThanFunc.bind(this, expectedValue), key);
+    }
+
     function greaterThan(key, expectedValue) {
         var greaterThanFunc = function(expectedValue, value) { 
             return expectedValue < value;
@@ -237,13 +245,23 @@ var easyStorage = function(storageName, overrideExisting) {
         return bindCommands(greaterThanFunc.bind(this, expectedValue), key);
     }
 
+    function greaterOrEqualThan(key, expectedValue) {
+        var greaterOrEqualThanFunc = function(expectedValue, value) { 
+            return expectedValue <= value;
+        };
+        
+        return bindCommands(greaterOrEqualThanFunc.bind(this, expectedValue), key);
+    }
+
     function where (key) {
         return {
             eq: bindFunc(this, eq, key),
             like: bindFunc(this, like, key),
             ilike: bindFunc(this, ilike, key),
             lessThan: bindFunc(this, lessThan, key),
-            greaterThan: bindFunc(this, greaterThan, key)
+            lessOrEqualThan: bindFunc(this, lessOrEqualThan, key),
+            greaterThan: bindFunc(this, greaterThan, key),
+            greaterOrEqualThan: bindFunc(this, greaterOrEqualThan, key)
         };
     }
 
