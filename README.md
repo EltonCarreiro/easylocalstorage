@@ -27,8 +27,12 @@ The commands listed above are used combined with a criteria, which will tell whe
 <ul>
 <li>eq (equals)</li>
 <li>like (case sensitive)</li>
+<li>ilike (case insensitive)</li>
 <li>lessThan</li>
+<li>lessOrEqualThan</li>
 <li>greaterThan</li>
+<li>greaterOrEqualThan</li>
+<li>matches (RegExp support)</li>
 </ul>
 
 You can combine the listed criteria with all the available commands except the command <b>insert</b>, wich can be substituted with the command <b>updateOrInsert</b>
