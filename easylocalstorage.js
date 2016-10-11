@@ -253,6 +253,17 @@ var easyStorage = function(storageName, overrideExisting) {
         return bindCommands(greaterOrEqualThanFunc.bind(this, expectedValue), key);
     }
 
+    function matches(key, propValue) {
+        var matchesFunc = function(propValue, value) { 
+            if (!(propValue instanceof RegExp))
+                propValue = new RegExp(propValue);
+            
+            return propValue.test(value);
+        };
+        
+        return bindCommands(matchesFunc.bind(this, propValue), key);
+    }
+
     function where (key) {
         return {
             eq: bindFunc(this, eq, key),
@@ -261,7 +272,8 @@ var easyStorage = function(storageName, overrideExisting) {
             lessThan: bindFunc(this, lessThan, key),
             lessOrEqualThan: bindFunc(this, lessOrEqualThan, key),
             greaterThan: bindFunc(this, greaterThan, key),
-            greaterOrEqualThan: bindFunc(this, greaterOrEqualThan, key)
+            greaterOrEqualThan: bindFunc(this, greaterOrEqualThan, key),
+            matches: bindFunc(this, matches, key)
         };
     }
 
