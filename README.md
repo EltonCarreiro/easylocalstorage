@@ -71,7 +71,6 @@ By default each command just manipulate the first found registry. If you want to
 We are at just the beggining of the library and we have lots of work to do! Take a look at our agenda:
 
 <ul>
-<li>Finish up our test suite (20% done)</li>
 <li>Allow arrays at the pathfinder
   <ul>
   <li>Browser over the whole array like 'person.[hobbies].name (hobbies is an array)'</li>
