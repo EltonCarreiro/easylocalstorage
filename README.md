@@ -45,9 +45,11 @@ First of all instantiate the database:
 <br>
 <code>var db = new easyStorage('dbname', true);</code>
 <br>
-When you create a new instance of a database you must specify the name of the database. If the it already exists in your local storage then
+<br>
+When you create a new instance of a database you must specify the name it should have in your local storage. If the name already exists, then
 the database will check the second parameter which means if you want to use the existing structure or you want it to be overrode. Specifying true means it must
 be overrode, specifying false or ommiting the parrameter means it must not be overrode.
+<br>
 <br>
 <i>"Get age from a person who is called John" </i>
 <br>
