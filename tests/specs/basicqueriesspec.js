@@ -134,45 +134,63 @@ describe("", function() {
     describe("Update or Insert", function() {
         describe("Single", function() {
             it("should update given property", function() {
-
+                db.where('index').eq(0).updateOrInsert({ index: -99 });
+                var expectedValue = db.where('index').eq(-99).get('index');
+                expect(expectedValue).toEqual(-99);
             });
 
             it("should return true when update suceed", function() {
-
+                var result = db.where('index').eq(0).updateOrInsert({index: 20});
+                expect(result).toBe(true);
             });
 
             it("should return false when criteria does not match", function() {
-
+                var result = db.where('index').eq(-99).updateOrInsert({ index: 20 });
+                expect(result).toBe(false);
             });
 
             it("should throw error when criteria property does not exist", function() {
-
+                function funcToThrow() {
+                    db.where('blablabla').eq(0).updateOrInsert({ index: 20 });
+                }
+                expect(funcToThrow).toThrow();
             });
 
             it("should create property when target property does not exist", function() {
-
+                db.where('index').eq(0).updateOrInsert({ newIndex: 100 });
+                var result = db.where('index').eq(0).get('newIndex');
+                expect(result).toEqual(100);
             });
         });
 
-        describe("All", function(){
+    describe("All", function() {
             it("should update given property", function() {
-
+                db.where('index').eq(0).updateOrInsertAll({ index: -99 });
+                var expectedValue = db.where('index').eq(-99).get('index');
+                expect(expectedValue).toEqual(-99);
             });
 
             it("should return true when update suceed", function() {
-
+                var result = db.where('index').eq(0).updateOrInsertAll({index: 20});
+                expect(result).toBe(true);
             });
 
             it("should return false when criteria does not match", function() {
-
+                var result = db.where('index').eq(-99).updateOrInsertAll({ index: 20 });
+                expect(result).toBe(false);
             });
 
             it("should throw error when criteria property does not exist", function() {
-
+                function funcToThrow() {
+                    db.where('blablabla').eq(0).updateOrInsertAll({ index: 20 });
+                }
+                expect(funcToThrow).toThrow();
             });
 
             it("should create property when target property does not exist", function() {
-
+                db.where('index').eq(0).updateOrInsertAll({ newIndex: 100 });
+                var result = db.where('index').eq(0).get('newIndex');
+                expect(result).toEqual(100);
             });
         });
     });
@@ -180,37 +198,51 @@ describe("", function() {
     describe("Replace", function() {
         describe("Single", function() {
             it("should replace target item", function() {
-
+                db.where('index').eq(0).replace({ index: 0, test: "test" });
+                var result = db.where('index').eq(0).get();
+                expect(result.test).toEqual('test');
             });
 
             it("should return true when replace suceed", function() {
-
+                var result = db.where('index').eq(0).replace({ index: 0, test: "test" });
+                expect(result).toBe(true);
             });
 
             it("should return false when criteria does not match", function() {
-
+                var result = db.where('index').eq(-999).replace({ index: 0, test: "test" });
+                expect(result).toBe(false);
             });
 
             it("should throw error when criteria property doest not exist", function() {
-
+                function funcToThrow() {
+                    db.where('blablabla').eq(0).replace({ index: 0, test: "test" });
+                }
+                expect(funcToThrow).toThrow();
             });
         });
 
         describe("All", function() {
             it("should replace target item", function() {
-
+                db.where('index').eq(0).replaceAll({ index: 0, test: "test" });
+                var result = db.where('index').eq(0).get();
+                expect(result.test).toEqual('test');
             });
 
             it("should return true when replace suceed", function() {
-
+                var result = db.where('index').eq(0).replaceAll({ index: 0, test: "test" });
+                expect(result).toBe(true);
             });
 
             it("should return false when criteria does not match", function() {
-
+                var result = db.where('index').eq(-999).replaceAll({ index: 0, test: "test" });
+                expect(result).toBe(false);
             });
 
             it("should throw error when criteria property doest not exist", function() {
-
+                function funcToThrow() {
+                    db.where('blablabla').eq(0).replaceAll({ index: 0, test: "test" });
+                }
+                expect(funcToThrow).toThrow();
             });
         });
     });
@@ -218,45 +250,63 @@ describe("", function() {
     describe("Delete", function() {
         describe("Single", function() {
             it("should delete target property", function() {
-
+                db.where('index').eq(0).del('balance');
+                var result = db.where('index').eq(0).get('balance');
+                expect(result).toEqual(undefined);
             });
 
             it("should delete target item", function() {
-
+                db.where('index').eq(0).del();
+                var result = db.where('index').eq(0).get();
+                expect(result).toEqual(undefined);
             });
 
             it("should return true when delete suceed", function() {
-
+                var result = db.where('index').eq(0).del('balance');
+                expect(result).toBe(true);
             });
 
             it("should return false when criteria does not match", function() {
-
+                var result = db.where('index').eq(-999).del('balance');
+                expect(result).toBe(false);
             });
 
             it("should throw error when criteria property doest not exist", function() {
-
+                function funcToThrow() {
+                    db.where('blablabla').eq(0).del();
+                }
+                expect(funcToThrow).toThrow();
             });
         });
 
-       describe("All", function() {
+        describe("All", function() {
             it("should delete target property", function() {
-
+                db.where('index').eq(0).delAll('balance');
+                var result = db.where('index').eq(0).get('balance');
+                expect(result).toEqual(undefined);
             });
 
             it("should delete target item", function() {
-
+                db.where('index').eq(0).delAll();
+                var result = db.where('index').eq(0).get();
+                expect(result).toEqual(undefined);
             });
 
             it("should return true when delete suceed", function() {
-
+                var result = db.where('index').eq(0).delAll('balance');
+                expect(result).toBe(true);
             });
 
             it("should return false when criteria does not match", function() {
-
+                var result = db.where('index').eq(-999).delAll('balance');
+                expect(result).toBe(false);
             });
 
             it("should throw error when criteria property doest not exist", function() {
-
+                function funcToThrow() {
+                    db.where('blablabla').eq(0).delAll();
+                }
+                expect(funcToThrow).toThrow();
             });
         });
     });
