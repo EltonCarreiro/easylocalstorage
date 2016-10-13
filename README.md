@@ -41,6 +41,14 @@ You also can use a command without criteria, doing so, you will reach all the re
 
 <h3>Examples</h3>
 <br>
+First of all instantiate the database:
+<br>
+<code>var db = new easyStorage('dbname', true);</code>
+<br>
+When you create a new instance of a database you must specify the name of the database. If the it already exists in your local storage then
+the database will check the second parameter which means if you want to use the existing structure or you want it to be overrode. Specifying true means it must
+be overrode, specifying false or ommiting the parrameter means it must not be overrode.
+<br>
 <i>"Get age from a person who is called John" </i>
 <br>
 <code>where('name').eq('John').get('age');</code>
